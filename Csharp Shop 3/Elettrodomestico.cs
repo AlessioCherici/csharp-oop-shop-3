@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp_shop_2
+namespace Csharp_shop_3
     {
     public class Elettrodomestico : Prodotto
         {

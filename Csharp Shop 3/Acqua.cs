@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Csharp_Shop_3.CustomException;
 
-namespace Csharp_shop_2
+namespace Csharp_shop_3
     {
     public class Acqua : Prodotto
         {
@@ -42,10 +43,18 @@ namespace Csharp_shop_2
             }
         public void SetpH(double pH)
             {
-            this.pH = pH;
+            if (pH < 0 || pH > 14) 
+                {
+                throw new LimitiPhException("Il pH di un liquido non può essere maggiore di 14 o minore di 0;");
+                }
+            else { this.pH = pH; }
             }
         public void SetSorgente(string sorgente)
             {
+            if (!string.IsNullOrEmpty(sorgente))
+                {
+                throw new ;
+                }
             this.sorgente = sorgente;
             }
 
@@ -96,6 +105,6 @@ namespace Csharp_shop_2
             Console.WriteLine("Prezzo con Iva: " + base.prezzoIvato(base.getPrezzo(), base.getIva()) + "\n");
             }
 
-
+        
         }
     }
