@@ -41,6 +41,8 @@ namespace Csharp_shop_3
             {
             this.litri = litri;
             }
+
+        // Metodo set pH per controllare se fra valori 0 - 14
         public void SetpH(double pH)
             {
             if (pH < 0 || pH > 14) 
@@ -49,13 +51,17 @@ namespace Csharp_shop_3
                 }
             else { this.pH = pH; }
             }
+        // Metodo set sorgente con controllo per campo vuoto e relativa exception
         public void SetSorgente(string sorgente)
             {
-            if (!string.IsNullOrEmpty(sorgente))
+            if (string.IsNullOrEmpty(sorgente))
                 {
-                throw new ;
+                throw new StringaVuotaException("Hai inserito un valore vuoto! Impostalo meglio!");
                 }
-            this.sorgente = sorgente;
+            else
+                {
+                this.sorgente = sorgente;
+                }
             }
 
         //--------------------------------- Metodi Acqua ---------------------------------
@@ -70,25 +76,38 @@ namespace Csharp_shop_3
             this.litri = 1.5;
             }
 
-        public void beviAcqua()
+        // Metodo per bere con exception se bevuta tutta
+        public void beviAcqua(double QuantaAcqua)
             {
-            this.litri = this.litri - 0.3;
+            this.litri = this.litri - QuantaAcqua;
+            if (this.litri < 0) 
+                {
+                this.litri = 0;
+                throw new BevutaAcquaException("Hai bevuto tutta l'acqua");
+                }
+            }
+        // Metodo per aggiungere con exception se aggiunta troppa
+        public void aggiungiAcqua(double QuantaAcqua)
+            {
+            this.litri = this.litri + QuantaAcqua;
+            if (this.litri > 1.5)
+                {
+                this.litri = 1.5;
+                throw new TroppaAcquaException("Hai aggiunto troppa acqua, ora la bottiglia e' piena e hai allagato casa!");
+                }
             }
 
-        public void refillBottigliaUtente(double acquaInserita)
+        // Metodo per restituire galloni
+
+        public double converti(double QuantiLitri)
             {
-            if (acquaInserita < 0)
+            if (QuantiLitri <= 0)
                 {
-                Console.WriteLine("Non puoi piu rimuovere un valore negativo di acqua, tonto!");
+                throw new ConversioneImpossibileException("Lo strumento e' impostato per convertire solo ed esclusivamente valori interi positivi");
                 }
-            else if (acquaInserita > 0 && acquaInserita <= 1.5 && this.litri + acquaInserita < 1.5)
-                {
-                this.litri += acquaInserita;
-                }
-            else
-                {
-                Console.WriteLine("Hai inserito troppa acqua!");
-                }
+            double LitriAGalloni = QuantiLitri * 3.785;
+            Console.WriteLine(QuantiLitri + " L Sono " + LitriAGalloni + " Galloni");
+            return LitriAGalloni;
             }
 
         // Override Metodo stampa
